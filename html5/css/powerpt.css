@@ -1,0 +1,120 @@
+body {
+  background-color: black;
+  font-family:arial;
+  font-size:small;
+  color: white;
+}
+.ppt {
+ width:250px;
+ padding:3px;
+ margin:3px;
+ border: 2px solid;
+ border-color:white;
+}
+.pptm {
+ padding:1px;
+ margin:1px;
+ border:2px solid;
+ border-color:white;    
+}
+.ppp {
+ font-size:small;
+ padding: 1px;
+ margin:1px;    
+}
+.ppx 
+{
+ float:right;
+ font-size:small;
+ padding: 0px;
+ margin:1px;
+}
+.ppy {
+ float:right;
+ color:black;
+ font-size:small; 
+ padding: 0px;
+ margin:1px;
+ width:50px; 
+}
+p.center {
+ text-align: center;
+ padding: 1px;
+ margin:1px;
+ font-size:small;
+ padding: 1px;
+}
+.auto-style1 {
+	text-align: center;
+}
+.auto-style2 {
+    float: right;
+    width: 50px;
+}
+.bloc {
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  border: solid grey 0px;
+}
+
+.bloc select {
+  padding: 10px;
+  margin: -1px -20px -1px -1px;
+}
+.select-selected {
+  box-shadow: 0 0 10px 100px #4A8CF7 inset; color: white;
+}
+
+.dropbtn {
+	border-color: #FFFFFF;
+	background-color: #F1F1F1;
+	min-width: 100px;
+	color: black;
+	padding: 2px;
+	font-size: 12px;
+	font-weight: bold;
+  display: block;
+  box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.5);
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #e4e4e4;
+    color: #000000;
+    min-width: 100px;
+	font-size: 11px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content span {
+    color: black;
+    padding: 2px 6px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content span:hover {background-color: #B0B0B0;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #C0C0C0;}
+
+/*  
+Use: 
+<div class="dropdown">
+   <a class="dropbtn">Dropdown</a>
+     <div class="dropdown-content">
+       <a href="">First</a>
+       <a href="">Second</a>
+       <a href="">Third</a>
+       <a href="">Forth</a>
+     </div>
+</div>
+*/

@@ -1,0 +1,531 @@
+﻿<!DOCTYPE html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Villamosenergia rendszer</title>
+<link rel="stylesheet" href="css/powerpt.css">
+<script src="js/createPPT.js"></script>
+<script src="js/main.js"></script>
+</head>
+
+
+
+<body onload="startPage();">
+<table id="MainTable" style="margin-left:auto;margin-right:auto;background-color: teal;display:none">
+<tr >
+<td colspan="3"> <h2 id="captions0" style="text-align: center;border: 2px solid;margin: 2px;padding:5px">Villamosenergia rendszer szimulációja (Cs. Sükösd 2022) </h2></td>
+</tr>
+<tr>
+<td id='left' valign = "top"> 
+</td>
+<td id="middle" valign = "top"> 
+ <table>
+  <tr>
+   <td class="pptm"> 
+      
+   <p class="center">
+    <button id="statistBtn" style="margin: 5px;" onclick="StatistR()" ><b><span id="captions40">STATISZTIKA</span></b></button><br />
+    <span id="captions1">CO2 termelés (t/kWh)</span><br /> 
+    <input id="CO2" type="text" value="0" readonly /> 
+    <p class="center"><span id="captions2" >Áram ára: $/MWh</span><br />
+    <input id="aramar" type="text" value="0" style="margin-bottom: 2px;"readonly /></p> 
+    <p class="center"><span id="captions38" >Normál eltérés (MWh)</span><br />
+    <input id="elteres" type="text" value="0" style="margin-bottom: 2px;width: 80px"readonly />&nbsp;<input id="eltszazalek" type ="text" value="0" style="display: inline-block; width: 30px;" readonly /> % </p> 
+   </td>
+  </tr>
+  <tr>
+   <td class="pptm" style="padding-bottom: 0px;"><p class="center"><b><button id="captions3" onclick="ShowDate()">Tél / Nyár nap</button></b> <br />
+	<input id="aug" checked="checked" name="Radio1" type="radio"  onclick="SetNyar(1)"/><span id="captions4">Augusztus</span>
+	<input id="jan" name="Radio1" type="radio"   onclick="SetNyar(0)"/><span id="captions5">Január</span><br />
+   <span id="adate" >2007-08-01 Szerda</span></p>
+   </td>
+  </tr>
+  <tr>
+   <td class="pptm"><p class="center" style="margin-top: 5px;">
+    <button id="startBtn" onclick="StartSim()">&nbsp;Start&nbsp;</button>
+    <input id="LastBtn" type="checkbox" checked><span id="captions64">Previous</span></input>
+    <button id="stopBtn" onclick="StopSim()" value ="Stop" style="text-align: center;width: 80px;" disabled> Stop</button> <br />
+    <button id="contBtn" style="margin: 5px; display: none;" onclick="ContSim()" disabled><span id="captions6">Folytatás</span></button>
+    <input id="szimul" type="text" style="text-align: center;color:red; font-weight: bold;margin: 5px;" value="Szimuláció áll" readonly="true"/><br />
+    <input id="nap" checked="checked" name="Radio2" type="radio" onclick="SetNap(1)"/><span id="captions9">Egy nap</span>
+	<input id="ora" name="Radio2" type="radio" onclick="SetNap(0)"/><span id="captions10">Egy óra</span><br />
+    <input id="ido" class="ppy" type="text" value="00:00" style="float: none;text-align: center;font-weight:bold; font-size:medium;" readonly="true"/></p> 
+   </td>
+  </tr>
+  <tr>
+   <td class="pptm">
+    <h4 style="margin-top: 10px;text-align: center;" ><b><span id="captions11">Prioritás automata <br /> szabályozáskor<br /></span></b></h4> 
+     <p  class="center" ><b><span id="captions12" >Túl kevés energia</span></b></p>
+     <table>
+      <tr>
+       <td><br />
+         <div class="bloc" style="margin-top: -20px;">
+   	      <select id="TooFew" name="Select1" size="4" style="width: 110px;margin-left: 20px;" >
+	         <option selected="selected">Szén</option>
+	         <option>Gáz</option>
+	         <option>Víz</option>
+	         <option>Tározós</option>
+	      </select>
+         </div>
+       </td>
+       <td><br />
+         <button style="margin: 0px 0px 0px 5px; padding: 5px" onclick ="SetTooFew(1)">&#9650</button><br /><br />
+         <button style="margin: 0px 0px 0px 5px; padding: 5px;" onclick ="SetTooFew(0)">&#9660</button><br /><br />
+       </td>
+      </tr> 
+     </table>
+     <br />
+     <p class="center" style="margin-top: -20px;"><b><span id="captions13" >Túl sok energia</span></b></p>
+     <table> 
+      <tr>
+       <td>
+        <br />
+        <div class="bloc" style="margin-top: -20px;">
+   	      <select id="TooMuch" name="Select2" size="4" style="width: 110px;margin-left: 20px;">
+	        <option selected="selected">Szén</option>
+	        <option>Gáz</option>
+	        <option>Víz</option>
+	        <option>Tározós</option>
+	      </select>
+        </div>
+       </td>
+       <td><br />
+         <button style="margin: 0px 0px 0px 5px; padding: 5px;" onclick ="SetTooMuch(1)">&#9650</button><br /><br />
+         <button style="margin: 0px 0px 0px 5px;padding: 5px;" onclick ="SetTooMuch(0)">&#9660</button><br /><br />
+       </td>
+       </tr> 
+     </table>
+   </td>
+  </tr>  
+ </table>
+</td>
+<td id='right' valign = "top"> 
+ <table>
+ <tr>
+ <td >
+ <table class="pptm" style="width: 585px;">
+ <tr>
+  <td>
+   <span id="captions14">Beépített kapacitás (GW):</span>
+  </td>
+  <td>
+    <input class="ppy" id="beepitett" type="text" value="0.000" readonly /> 
+  </td>
+  <td colspan="2"> 
+     <canvas id="capacity" width="350" height="20" style="border:1px solid #ffffff;">
+          Your browser does not support the canvas element.
+     </canvas>
+  </td>
+ </tr>
+ <tr>
+  <td>
+   <span id="captions15">Tárolási kapacitás (GWh):</span>
+  </td>
+  <td>
+    <input class="ppy" id="tarolasi" type="text" value="0.000" readonly /> 
+  </td>
+  <td>
+       <canvas id="storcap" width="300px" height="20" style="border:1px solid #ffffff;">
+          Your browser does not support the canvas element.
+     </canvas>  
+  </td>
+  <td >    
+      <input id="capszazalek" type="text" value="0.0%" style="width: 50px;" readonly  />   
+  </td>
+ </tr>
+</table>  
+<tr>  
+ <td> 
+  <table class="pptm">
+  <tr>
+  <td valign="top">
+    <br />
+    <input class="ppy" id="UpDown1" type="number" style="position: relative;width: 18px;margin-left: 0px;" onchange="setYMax(1);"/>
+    <input class="ppy" id="plot1max" type="text" value="10000" style="margin-left: 5px;margin-right: 0px;" /> 
+    <input id="check1max" type="checkbox" checked="true" onchange="GetAuto(1)"/>
+      <label for="check1max">Auto</label>
+   <br /> 
+   <br />   
+   <table class="pptm" style="margin-left: 12px;">
+   <tr>
+   <td class="ppp"><input id="storageselect" type="checkbox" checked="true" onchange="GetGraphSet(this,0)"/></td>
+   <td class="ppp"> <label id="lblstorage"for="storageselect">Tározós</label></td>
+   <td class="ppp"><p  class="ppp" style="color:#80FF80;background-color:black;"><b>MW</b></p></td>
+   </tr>
+   <tr>
+   <td class="ppp"><input id="gasselect" type="checkbox" checked="true" onchange="GetGraphSet(this,1)"/></td>
+   <td class="ppp"><label id="lblgas" for="gasselect">Gáz</label></td>
+   <td><p  class="ppp" style="color: fuchsia;background-color:black;"><b>MW</b></p></td>
+   </tr>
+   <tr>
+   <td class="ppp"><input id="sunselect" type="checkbox" checked="true" onchange="GetGraphSet(this,2)"/></td>
+   <td class="ppp"><label id="lblsun"for="sunselect">Nap</label></td>
+   <td><p  class="ppp" style="color: yellow;background-color:black;"><b>MW</b></p></td>
+   </tr>
+   <tr>
+   <td class="ppp"><input id="windeselect" type="checkbox" checked="true" onchange="GetGraphSet(this,3)"/></td>
+   <td class="ppp"><label id="lblwind"for="windselect">Szél</label></td>
+   <td><p  class="ppp" style="color: aqua;background-color:black;"><b>MW</b></p></td>
+   </tr>
+   <tr>
+   <td class="ppp"><input id="hydroselect" type="checkbox" checked="true" onchange="GetGraphSet(this,4)"/></td>
+   <td class="ppp"><label id="lblhydro" for="hydroselect">Víz</label></td>
+   <td><p  class="ppp" style="color: blue;background-color:white;"><b>MW</b></p></td>
+   </tr>
+   <tr>
+   <td class="ppp"><input id="coalselect" type="checkbox" checked="true" onchange="GetGraphSet(this,5)"/></td>
+   <td class="ppp"><label id="lblcoal"for="coalselect">Szén</label></td>
+   <td><p  class="ppp" style="color: black;background-color:white;"><b>MW</b></p></td>
+   </tr>
+   <tr>
+   <td class="ppp"><input id="atomselect" type="checkbox" checked="true" onchange="GetGraphSet(this,6)"/></td>
+   <td class="ppp"><label id="lblatom"for="atomselect">Atom</label></td>
+   <td><p class="ppp" style="color: red;background-color:white;"><b>MW</b></p></td>
+   </tr>
+   </table>   
+  </td>
+  <td> <br />
+       <canvas id="plot1" width="420" height="275" style="border:1px solid #ffffff;">
+          Your browser does not support the canvas element.
+     </canvas>  
+  </td>
+  </tr>
+  <tr>
+  <td valign="top">
+    <br />
+    <input class="ppy" id="UpDown2" type="number" style="position: relative;width: 18px;margin-left: 0px;" onchange="setYMax(2);"/> 
+    <input class="ppy" id="plot2max" type="text" value="10000" style="margin-left: 5px;margin-right: 0px;" readonly="true"/> 
+    <input id="check2max" type="checkbox" checked="true" onchange="GetAuto(0)" /> 
+     <label for="check2max">Auto</label><br />
+   <br /> 
+   <br />   
+   <table class="pptm">
+   <tr>
+   <td class="ppp"><input id="storagedraw" type="checkbox" checked="true" onchange="GetGraph2Set(this,0)"/></td>
+   <td class="ppp"><label id="lblstdr" for="storagedraw">Tározós</label></td>
+   <td class="ppp"><p  class="ppp" style="color:#80FF80;background-color:black;"><b>MWh</b></p></td>
+   </tr>
+   <tr>
+   <td class="ppp"><input id="consumdraw" type="checkbox" checked="true" onchange="GetGraph2Set(this,1)"/></td>
+   <td class="ppp"><label id="lblconsum" for="consumdraw">Fogysztás</label></td>
+   <td><p  class="ppp" style="color: yellow;background-color:black;"><b>MW</b></p></td>
+   </tr>
+   <tr>
+   <td class="ppp"><input id="productdraw" type="checkbox" checked="true" onchange="GetGraph2Set(this,2)" /></td>
+   <td class="ppp"><label id="lblproduct" for="productdraw">Termelés</label></td>
+   <td><p  class="ppp" style="color: fuchsia;background-color:black;"><b>MW</b></p></td>
+   </tr>
+   </table>     
+  </td>
+  <td>
+     <canvas id="plot2" width="420" height="275" style="border:1px solid #ffffff;">
+          Your browser does not support the canvas element.
+     </canvas>  
+  </td>
+  </tr>
+  </table> 
+  </td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ </table>    
+</td>
+</tr>
+<!-- ================================Power Plant Parameters ==================================  -->
+</table>
+<table id="intable" style="margin-left:auto;margin-right:auto;background-color: #006040;width =500px;display:none">
+	<tr>
+		<td >
+		<table >
+			<tr>
+				<td class="pptm"> <br />
+				<div class="auto-style1">
+					<b><span id="captions16">EGYSÉG PARAMÉTEREI</span></b><br />
+				</div>
+				<table style="width: 310px;">
+					<tr>
+						<td ><span id="captions7">Név</span></td>
+						<td ><input id="innev" style="width: 100px;float: right;" name="Text1" type="text" value="Név" readonly="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td ><span id="captions17">Max. teljesítmény (GW)</span></td>
+						<td >
+							<input id="inmxtelj" class="auto-style2" name="Text2" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td ><span id="captions18">Min. teljesítmény (GW)</span></td>
+						<td >
+							<input id="inmintelj" class="auto-style2" name="Text3" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td ><span id="captions19">Rugalmasság (GW)</span></td>
+						<td >
+							<input id="inrug" class="auto-style2"  name="Text4" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td ><span id="captions20">Befektetési költség ($/MWh)</span></td>
+						<td >
+							<input id="inbefekt" class="auto-style2"  name="Text5" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td ><span id="captions21">Üzemi költség ($/MWh)</span></td>
+						<td >
+							<input id="inuzem" class="auto-style2"  name="Text7" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td ><span id="captions22">CO2 kibocsátás (t/MWh)</span></td>
+						<td >
+							<input id="inco2" class="auto-style2"  name="Text8" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td ><span id="captions23">Tároló kapacitás (GWh)</span></td>
+						<td >
+							<input id="intarol" class="auto-style2"  name="Text9" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="pptm"><br /><b><span id="captions24">EGYSÉGEK SZÁMA:</span></b>
+					<input  id="innumber" class="auto-style2" style="display: inline-block;margin-bottom: 10px;width:  50px;float: right" name="Text10" type="text" value="0" onkeypress="return KeyPr(this,event)" onClick="this.setSelectionRange(0, this.value.length)"/><br />
+				</td>
+			</tr>
+			<tr>
+				<td class="pptm"><br />
+				<div class="auto-style1">
+					 <b><span id="captions25">PILLANATNYI ÉRTÉKEK</span></b><br />
+				</div>
+				<table style="width: 300px;">
+					<tr>
+						<td><span id="captions26">Teljesítmény (GW)</span></td>
+						<td>
+							<input  id="inacttelj" class="auto-style2" name="Text11" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td><span id="captions27">CO2 kibocsátás (t/h)</span></td>
+						<td>
+							<input  id="inactco2" class="auto-style2" name="Text12" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td><span id="captions28">Pillanatnyi önköltség ($/h)</span></td>
+						<td>
+							<input  id="inactkltsg" class="auto-style2" name="Text13" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td><span id="captions29">Tárolt energia (GWh)</span></td>
+						<td>
+							<input  id="inacttarolt" class="auto-style2" name="Text14" type="text" value="0" readonly="true"/>
+						</td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+		</table>
+		</td>
+		<td valign ="top">
+		<table>
+			<tr >
+				<td >
+				  <img id="inpic" alt="" height="150" src=""  />
+				  <input  id="inid" style="display: none;" name="Text18" type="text" value="0" readonly="true"/>
+                </td>
+			</tr>
+            <tr> 
+              <td class="pptm">
+                 <br />
+	     	     <div class="auto-style1">
+			     <b><span id="captions30">SZABÁLYOZÓK</span></b>  	<br /><br />
+			      <div id="indiv0"> <span id="captions31">Automata üzemmód</span></div><br />
+				  <input id="incheck" name="Checkbox1" type="checkbox" checked="true"/>
+                  <div id="indiv" style="display: inline-block;"><span id="captions32">Engedélyezve</span></div>
+                  <br /><br />
+                </div>
+             </td>
+          </tr>
+          <tr>
+          <td class="pptm"> 
+            <div class="auto-style1" style="margin-top: 50px; margin-bottom: 55px;">        
+             <button style="width: 120px;" onclick="SaveData()"><span id="captions33">Mentés</span></button><br /><br />
+             <button style="width: 120px;" onclick="Elrejt()"><span id="captions34">Mégse</span></button>
+            </div>  
+          </td>
+          </tr>
+		</table>
+		</td>
+	</tr>
+</table>
+<!--   ==================================   LANGUAGE selection =================================== -->
+<table id="Language" style="margin-left:auto;margin-right:auto;background-color: teal;width: 300px;">
+<tr>
+<td class="pptm"> <br /> <h2 style="text-align: center;">Select a language! <br />Válassz nyelvet!</h2> 
+<div class="bloc">
+<select id="LangSelect" size="2" style="margin-left: 75px;width: 150px;" onclick="Language();">
+<option selected="selected">English</option>
+<option>Magyar</option>
+</select>
+</div>
+<br /> <br />
+<!-- <button onclick="Language();">Kész </button> -->
+</td>
+</tr>
+</table>
+<!--   ==================================   DATE selection =================================== -->
+</table>
+<table id="DateSel" style="margin-left:auto;margin-right:auto;background-color:  #006040;width: 175px;display:none">
+<tr>
+<td class="pptm"> <br /> <h3 id="captions65" style="text-align: center;">Select a date!</h3> 
+<div class="bloc">
+<select id="DSelect" size="20" style="margin-left: 25px;margin-right: 20px; width: 125px;" onclick="ListDate();">
+</select>
+</div>
+<br /> <br />
+</td>
+</tr>
+</table>
+
+<!-- ====================  STATISZTIKA parameters ==============================================  -->
+</table>
+<table id="stattable" style="margin-left:auto;margin-right:auto;background-color: #006040;width = 500px;display:none">
+	<tr>
+		<td>
+        <table class="pptm">
+			<tr>
+				<td  style="width: 350px;" colspan="2"> <br />
+				<div class="auto-style1" style="margin: 10px;">
+					<b><span id="captions63">STATISZTIKA</span></b><br />
+				</div>
+                </td>
+            </tr>
+            <tr>
+            <td><span id="captions42">Megtermelt energia (MWh):</span></td>
+            <td><input id="instat01" type="text" value="0.0" style="width: 105px;" readonly="true"/></td>
+            </tr>
+            <tr>
+            <td><span id="captions43">Fogyasztás (MWh):</span></td>
+            <td><input id="instat02" type="text" value="0.0" style="width: 105px;" readonly="true"/></td>
+            </tr>
+            <tr>
+            <td><span id="captions44">Normál eltérés (MWh):</span></td>
+            <td><input id="instat03" type="text" value="0.0" style="width: 55px;" readonly="true"/>
+                 <input id="instat031" type="text" value="0.0" style="width: 40px;" readonly="true" />&nbsp;%</td>
+            </tr>
+            <tr>
+            <td><span id="captions45">Export/import (MWh):</span></td>
+            <td><input id="instat04" type="text" value="0.0" style="width: 55px;" readonly="true"/>
+                 <input id="instat041" type="text" value="0.0" style="width: 40px;" readonly="true" />&nbsp;%</td>
+            </tr>
+            <tr>
+            <td><span id="captions46">CO2 termelés (t/GWh):</span></td>
+            <td><input id="instat05" type="text" value="0.0" style="width: 107px;" readonly="true"/></td>
+            </tr>
+            <tr>
+            <td><span id="captions47">Áram önköltségi egységára ($/MWh):</span></td>
+            <td><input id="instat06" type="text" value="0.0" style="width: 107px;" readonly="true"/></td>
+            </tr>
+            <tr>
+            <td><span id="captions48">Szénerőművek termelése (MWh):</span></td>
+            <td><input id="instat07" type="text" value="0.0" style="width: 55px;" readonly="true"/>
+                 <input id="instat071" type="text" value="0.0" style="width: 40px;" readonly="true" />&nbsp;%&nbsp;</td>
+            </tr>
+            <tr>
+            <td><span id="captions49">Gázerőművek termelése (MWh):</span></td>
+            <td><input id="instat08" type="text" value="0.0" style="width: 55px;" readonly="true"/>
+                 <input id="instat081" type="text" value="0.0" style="width: 40px;" readonly="true" />&nbsp;%</td>
+            </tr>
+            <tr>
+            <td><span id="captions50">Atomerőművek termelése (MWh):</span></td>
+            <td><input id="instat09" type="text" value="0.0" style="width: 55px;" readonly="true"/>
+                 <input id="instat091" type="text" value="0.0" style="width: 40px;" readonly="true" />&nbsp;%</td>
+            </tr>
+            <tr>
+            <td><span id="captions51">Szélerőművek termelése (MWh):</span></td>
+            <td><input id="instat10" type="text" value="0.0" style="width: 55px;" readonly="true"/>
+                 <input id="instat101" type="text" value="0.0" style="width: 40px;" readonly="true" />&nbsp;%</td>
+            </tr>
+            <tr>
+            <td><span id="captions52">Naperőművek termelése (MWh):</span></td>
+            <td><input id="instat11" type="text" value="0.0" style="width: 55px;" readonly="true"/>
+                 <input id="instat111" type="text" value="0.0" style="width: 40px;" readonly="true" />&nbsp;%</td>
+            </tr>
+            <tr>
+            <td><span id="captions53">Vízierőművek termelése (MWh):</span></td>
+            <td><input id="instat12" type="text" value="0.0" style="width: 55px;" readonly="true"/>
+                 <input id="instat121" type="text" value="0.0" style="width: 40px;" readonly="true" />&nbsp;%</td>
+            </tr>
+            <tr>
+            <td><span id="captions54">Tározós erőművek össztermelése (MWh):</span></td>
+            <td><input id="instat13" type="text" value="0.0" style="width: 55px;" readonly="true"/>
+                 <input id="instat131" type="text" value="0.0" style="width: 40px;" readonly="true" />&nbsp;%</td>
+            </tr>
+        </table>       
+        </td> 
+
+
+        <td class="pptm"> 
+        <table>
+        <tr>
+         <td colspan="2">
+         <p class="center">       
+           <button id="elrejtBtn" style="margin: 15px;width: 100px;" onclick="StatRejt()"><b><span id="captions41">ELREJT</span></b></button>
+           <br /> <br /> <br /> <br />       
+          </p>
+         </td>
+        </tr> 
+        <tr> 
+         <td colspan="2">
+          <p id="captions55" class="center">Beépített kapacitások <br />kihasználtsága (%)</p> <br />          
+         </td> 
+        </tr> 
+        <tr>
+            <td><span id="captions56">Összesen :</span></td>
+            <td><input id="instat14" type="text" value="0.0" style="width: 65px;" readonly="true"/><br />
+                </td>
+        </tr>
+        <tr>
+            <td><span id="captions57">Szénerőművek:</span></td>
+            <td><input id="instat15" type="text" value="0.0" style="width: 65px;" readonly="true"/>
+                </td>
+        </tr>
+        <tr>
+            <td><span id="captions58">Gázerőművek:</span></td>
+            <td><input id="instat16" type="text" value="0.0" style="width: 65px;" readonly="true"/>
+                </td>
+        </tr>
+        <tr>
+            <td><span id="captions59">Atomerőművek:</span></td>
+            <td><input id="instat17" type="text" value="0.0" style="width: 65px;" readonly="true"/>
+                </td>
+        </tr>
+        <tr>
+            <td><span id="captions60">Szélerőművek:</span></td>
+            <td><input id="instat18" type="text" value="0.0" style="width: 65px;" readonly="true"/>
+                </td>
+        </tr>
+        <tr>
+            <td><span id="captions61">Naperőművek:</span></td>
+            <td><input id="instat19" type="text" value="0.0" style="width: 65px;" readonly="true"/>&nbsp;
+                </td>
+        </tr>
+        <tr>
+            <td><span id="captions62">Vízerőművek:</span></td>
+            <td><input id="instat20" type="text" value="0.0" style="width: 65px;" readonly="true"/><br />
+                </td>
+        </tr>
+        </table>  
+        </td>
+    </tr>    
+</table>
+</body>
+
+</html>
