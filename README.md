@@ -1,6 +1,6 @@
 # An educational simulation of a country's electric power system
 
-This program was originally used in the Leó Szilárd Physics Competition in 2019. Both the main program logic and the user interface have undergone several changes since then.
+This program was originally used in the Leó Szilárd Physics Competition in 2019. Both the main program logic and the user interface have undergone several changes since then. The developer is Csaba Sükösd.
 
 The program is not intended to be an all-encompassing simulation, let alone as a utility to base political decisions on. It is merely an educational tool.
 
