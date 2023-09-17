@@ -1,7 +1,7 @@
 var captionsen = [];
 captionsen[0] = "Simulations of a country's electrical power sytem (Cs. Sükösd 2022) <a href='Help.pdf' target ='_blank'><button id='HelpBtn' style='display:inline-block; float: right;width: 100px'>Help</button></a>";
 captionsen[1] = "CO2 production (t/GWh)";
-captionsen[2] = "Cost of electricity ($/GWh)";
+captionsen[2] = "Cost of electricity ($/MWh)";
 captionsen[3] = "Summer/Winter day";
 captionsen[4] = "August";
 captionsen[5] = "January";
@@ -42,7 +42,7 @@ captionsen[39] = "none";
 captionsen[40] = "STATISTICS";
 captionsen[41] = "HIDE";
 captionsen[42] = "Total energy produced (MWh)";
-captionsen[43] = "Total consumption (MWh)";
+captionsen[43] = "Total demand (MWh)";
 captionsen[44] = "Normalized deviation(MWh):";
 captionsen[45] = "Export/import (MWh)";
 captionsen[46] = "CO2 production (t/GWh)";

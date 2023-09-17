@@ -19,10 +19,10 @@ tbl.style.display = "block";
 
 x = Statist[12];    //  Statist[12] is the sum of absolute values of the production-demand differences (see cycle.js)
 
-document.getElementById("instat01").value = dec2(Statist[7]);  //1   ok
-document.getElementById("instat02").value = dec2(Statist[8]);  //2   ok 
-document.getElementById("instat03").value = dec2(x);           //13  ok     This is the square root of the sum of squared differences
-document.getElementById("instat031").value = 0.0;              //22  ok     This is the "realtive value" 
+document.getElementById("instat01").value = dec2(Statist[7]);  //1   ok     This is the total production
+document.getElementById("instat02").value = dec2(Statist[8]);  //2   ok     This is the total demand
+document.getElementById("instat03").value = dec2(x);           //13  ok     This is the absolute value of the differences
+document.getElementById("instat031").value = 0.0;              //22  ok     This is the "relative value" 
 document.getElementById("instat04").value = dec2(Statist[9]);  //3   ok     This is the export/import absolute value
 document.getElementById("instat041").value = 0.0;              //21  ok     This is the export/import relative value 
 document.getElementById("instat05").value = 0.0;               //4   ok     This is the sum of the CO2 production
@@ -67,16 +67,19 @@ for(var i=0;i<6;i++) {            //Loop along the powerplants for the utilizati
 if(Statist[8] != 0) {                                                //Normalization to the total demand
  y = 100/Statist[8];   
  document.getElementById("instat031").value = dec2(y*x);             //x was the sum of absolute values of the production-deman differences
- document.getElementById("instat041").value = dec2(y*Statist[9]);
- document.getElementById("instat071").value = dec2(y*Statist[0]);   
- document.getElementById("instat081").value = dec2(y*Statist[1]);   
- document.getElementById("instat091").value = dec2(y*Statist[2]);   
- document.getElementById("instat101").value = dec2(y*Statist[3]);   
- document.getElementById("instat111").value = dec2(y*Statist[4]);   
- document.getElementById("instat121").value = dec2(y*Statist[5]);   
- document.getElementById("instat131").value = dec2(y*Statist[6]); 
- document.getElementById("instat05").value =  dec2(10*y*Statist[10]); 
- x = Number(Statist[11]) +  Number(Statist[13]);
+ document.getElementById("instat041").value = dec2(y*Statist[9]);    //the deviation is normalized to the total demand
+ document.getElementById("instat071").value = dec2(y*Statist[0]);    //the total production of coal powerplants is normalized to the total demand
+ document.getElementById("instat081").value = dec2(y*Statist[1]);    //the total production of gas powerplants is normalized to the total demand
+ document.getElementById("instat091").value = dec2(y*Statist[2]);    //the total production of nuclear powerplants is normalized to the total demand
+ document.getElementById("instat101").value = dec2(y*Statist[3]);    //the total production of photovoltaic (sun) powerplants is normalized to the total demand
+ document.getElementById("instat111").value = dec2(y*Statist[4]);    //the total production of wind powerplants is normalized to the total demand
+ document.getElementById("instat121").value = dec2(y*Statist[5]);    //the total production of hydro powerplants is normalized to the total demand 
+ document.getElementById("instat131").value = dec2(y*Statist[6]);    //the total production of storage powerplants is normalized to the total demand
+}
+if(Statist[7] != 0) {                                                //Normalization to the total production
+ y = 100/Statist[7];   
+ document.getElementById("instat05").value =  dec2(10*y*Statist[10]); //Total CO2 production/produced energy
+ x = Number(Statist[11]) +  Number(Statist[13]);                      //Total cost of electricity /produced energy   
  document.getElementById("instat06").value = dec2(0.01*y*x); 
 } 
  

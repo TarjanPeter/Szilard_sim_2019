@@ -3,8 +3,8 @@
 const PowerPlants = [CoalPPT, GasPPT, NuclPPT, WindPPT, SolarPPT, HydroPPT, StoragePPT]; 
 var TooFew =[0,1,5,6];
 var TooMuch = [0,1,5,6];
-var NameHu = ["Szén","Gáz","Atom","Szél","Nap","Víz","Tározós","Fogyasztás","Termelés"]; 
-var NameEn = ["Coal","Gas","Nuclear","Wind","Solar","Hydro","Storage","Consumption","Production"];
+var NameHu = ["Szén","Gáz","Atom","Szél","Nap","Víz","Tározós","Terhelés","Termelés"]; 
+var NameEn = ["Coal","Gas","Nuclear","Wind","Solar","Hydro","Storage","Demand","Production"];
 var SRunning = false;
 var Nyar = true;
 var Nap = true;

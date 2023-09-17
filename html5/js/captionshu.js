@@ -1,7 +1,7 @@
 var captionshu = [];
 captionshu[0] = "Villamosenergia rendszer szimulációja (Cs. Sükösd 2022) <a href='Sugo.pdf' target ='_blank'><button id='HelpBtn' style='display:inline-block; float: right;width: 100px'>Súgó</button></a><div class='dropdown' style ='float:left; display:none'><a class='dropbtn'>Menü</a><div class='dropdown-content'><span onclick =alert('Mentés')>Mentés</span><span onclick =alert('Betöltés')>Betöltés</span><span onclick =alert('Képernyőmentés')>Képernyőmentés</span><span onclick =alert('Névjegy') >Névjegy</span></div><div>";
 captionshu[1] = "CO2 termelés (t/GWh)";
-captionshu[2] = "Áram ára ($/GWh)";
+captionshu[2] = "Áram ára ($/MWh)";
 captionshu[3] = "Tél/Nyár nap";
 captionshu[4] = "Augusztus";
 captionshu[5] = "Január";
@@ -42,7 +42,7 @@ captionshu[39] = "nincs";
 captionshu[40] = "STATISZTIKA";
 captionshu[41] = "ELREJT";
 captionshu[42] = "Megtermelt energia (MWh)";
-captionshu[43] = "Fogyasztás (MWh)";
+captionshu[43] = "Terhelés (MWh)";
 captionshu[44] = "Normált eltérés (MWh):";
 captionshu[45] = "Export/import (MWh)";
 captionshu[46] = "CO2 termelés (t/GWh)";

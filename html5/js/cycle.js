@@ -114,6 +114,9 @@ function WindFactor() {
       x = myRandom();
    }
    wind_speed = a*Math.sqrt(-Math.log(1-x)); 
+//*********************************************************
+//  document.getElementById("test").innerHTML = wind_speed; 
+//*********************************************************
 // ----------------------   
   if((wind_speed > wind_max) || (wind_speed < wind_min)) {     //The wind speed should remain between the limits
     return 0;

@@ -33,15 +33,15 @@ co2.value = 0;
 aramar.value = 0;
 elteres.value = 0;
 
- x = Statist[12]; //Statist[12] is the sum of absolute values of the (production-demand) differences
-
- elteres.value = x; 
- if (Number(Statist[8]) != 0) { eltszaz.value = Math.round(10000*x/Number(Statist[8]))/100;}
 //   ...........Relative deviation ..........
+ x = Statist[12]; //Statist[12] is the sum of absolute values of the (production-demand) differences
+ elteres.value = dec2(x); 
+ if (Number(Statist[8]) != 0) { eltszaz.value = Math.round(10000*x/Number(Statist[8]))/100;}
+// ......... CO2 and Cost of electricity .............. 
  if (Number(Statist[7]) != 0) {
 co2.value = Math.round(100*1000*Number(Statist[10]) / Number(Statist[7]))/100;
-aramar.value = Math.round(100*(1000*Number(Statist[13])+1000*Number(Statist[11]))/Number(Statist[7]))/100;
-//eltszaz.value = Math.round(10000*x/Number(Statist[7]))/100;
+aramar.value = Math.round(100*(Number(Statist[13])+Number(Statist[11]))/Number(Statist[7]))/100;
+//eltszaz.value = Math.round(10000*x/Number(Statist[8]))/100;
 }
 
 DrawActCapacity();

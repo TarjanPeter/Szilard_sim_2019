@@ -52,8 +52,8 @@ this.urlen = urlen;
 this.namehu = namehu;
 this.pcolor = pcolor;
 // Initialize actauto
-this.actauto =false;
-if(this.automata==true) 
+this.actauto =false;    //automatic change of power enabled/disabled
+if(this.automata==true) //is it capable for automatic change of power? 
    {this.actauto = true;} 
 this.product =[];  //array containing the productions during 24 hours
 this.CO2 = 0; 
@@ -61,6 +61,8 @@ this.CO2 = 0;
 for (let i=0; i<24; i++) {   //Clear the productions during 24 hours
     this.product[i] =0;   
   }  
+
+//   ****************    Now the functions of the PowerPlants *****************************
 
 this.changePower = function(demand) {  //'demand' is the difference between the actual overall production and the overall demand
                                        //'demand' can be positive or negativ =>  increase or decrease the production
@@ -77,6 +79,10 @@ this.changePower = function(demand) {  //'demand' is the difference between the 
  if(flexmin>mi) {flexmin = mi;}
  result = demand;
  if(demand ==0) {return 0};  //No change is needed 
+// *********************************************************************
+//  if(this.actauto == false) 
+// alert(this.name);
+//**********************************************************************
  if(this.actauto == false) {return result;}  //If the PP is not automatic
  if(this.NoOfUnits  == 0) { return result;}  //If there are no units
  if(this.flexibility == 0) {return result;}  //If it is not flexible
@@ -84,7 +90,8 @@ this.changePower = function(demand) {  //'demand' is the difference between the 
  x = Number(this.actual_power) + Number(demand);  //This much would be after a change (up or down)
  result = 0;  //If this amount of change was made, there would remain nothing from the demand     
  if(demand>0){   // If the power must be increased
- y = Math.min(mx,flexmax,cx);     //This shows how much the power can be increased
+ y = Math.min(mx,flexmax);     //This shows how much the power can be increased
+  if (name=="Storage") y = Math.min(y,cx);
   if(x>=y) {  //if only smaller change is allowed
     this.actual_power = y; //Change the actual power as much as allowed
     result = x -y;   //This much remains form the previous 'demand'
@@ -98,7 +105,8 @@ this.changePower = function(demand) {  //'demand' is the difference between the 
   }                          //End if demand >0
 
  if(demand<0){              // If the power should be decreased
- y = Math.max(mi,flexmin, cmx); //This shows how much the power can be decreased
+ y = Math.max(mi,flexmin); //This shows how much the power can be decreased
+ if (name=="Storage") y = Math.max(y,cmx);
    if(x<y) {                    //if only smaller change is allowed
     this.actual_power = y;      //Change the actual power as much as allowed
     result = x - y;             //This much remains form the previous 'demand'
@@ -112,14 +120,18 @@ this.changePower = function(demand) {  //'demand' is the difference between the 
   }                        //End if demand <0
  }                         //End function changePower
 
+// ********************************************
+
 this.P_Update  = function(){
  var stable = this.name;   
  document.getElementById(stable+"actpower").value =dec2(this.actual_power);   
 }   //End function P_Update
 }   //End constructor
 }   //End class PowerPlant
+// ****************************************************
 
-// ======================These are the definition of the Powerplants =====================================================
+
+// ======================These are the definition/construction of the Powerplants =====================================================
 
 const CoalPPT = new PowerPlant (
 0,
